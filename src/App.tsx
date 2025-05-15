@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./components/Button";
+import Alert from "./components/Alert";
 
 function App() {
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => setShowAlert(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
+
   return (
     // <>
     <div>
-      <p className="text-green-500">Hello World!</p>
+      {showAlert && <Alert text="Your workout have been saved"></Alert>}
+      <h1 className="text-cyan-950">Welcome to GymTime</h1>
+      <p>Form for adding workout</p>
       <Button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-20"
         onClick={() => console.log("Clicked")}
@@ -13,9 +25,10 @@ function App() {
         Search
       </Button>
       <hr />
+      <p>Display workout</p>
       <Button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-35"
-        onClick={() => console.log("Clicked")}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-35 "
+        onClick={() => setShowAlert(true)}
       >
         Save workout
       </Button>
