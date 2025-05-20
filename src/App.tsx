@@ -15,7 +15,12 @@ function App() {
   return (
     // <>
     <div>
-      {showAlert && <Alert text="Your workout have been saved"></Alert>}
+      {showAlert && (
+        <Alert
+          text="Your workout have been saved"
+          className="flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
+        ></Alert>
+      )}
       <h1 className="text-cyan-950">Welcome to GymTime</h1>
       <p>Form for adding workout</p>
       <Button

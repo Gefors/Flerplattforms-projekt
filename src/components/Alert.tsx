@@ -1,3 +1,11 @@
+/**
+ * Alert component
+ * This component displays an alert message with an icon and customizable styling.
+ * @param {string} className - Additional class names for styling
+ * @param {string} text - The alert message to display
+ * @returns {JSX.Element} - The rendered alert component
+ */
+
 interface Props {
   className?: string;
   text: string;
@@ -5,11 +13,8 @@ interface Props {
 
 const Alert = ({ className, text }: Props) => {
   return (
-    <div className={className}>
-      <div
-        className="flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
-        role="alert"
-      >
+    <div>
+      <div className={className} role="alert">
         <svg
           className="fill-current w-4 h-4 mr-2"
           xmlns="http://www.w3.org/2000/svg"
