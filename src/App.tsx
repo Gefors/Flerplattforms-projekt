@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "./components/Button";
 import Alert from "./components/Alert";
+import WorkoutForm from "./components/WorkoutForm";
 
 function App() {
   const [showAlert, setShowAlert] = useState(false);
@@ -14,7 +15,7 @@ function App() {
 
   return (
     // <>
-    <div>
+    <div className="mx-20 flex flex-col">
       {showAlert && (
         <Alert
           text="Your workout have been saved"
@@ -23,6 +24,7 @@ function App() {
       )}
       <h1 className="text-cyan-950">Welcome to GymTime</h1>
       <p>Form for adding workout</p>
+      <WorkoutForm />
       <Button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-20"
         onClick={() => console.log("Clicked")}
