@@ -9,14 +9,13 @@ import type {
   MuscleGroup,
 } from "../enums/FormDataType";
 
-const WorkoutForm: React.FC = () => {
-  const [form, setForm] = useState<FormData>({
-    goal: "strength",
-    experience: "beginner",
-    duration: "short",
-    equipment: [],
-    muscleGroup: [],
-  });
+interface WorkoutFormProps {
+  form: FormData,
+  setForm: React.Dispatch<React.SetStateAction<FormData>>,
+}
+
+const WorkoutForm = ({form, setForm}: WorkoutFormProps) => {
+  
 
   const handeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
