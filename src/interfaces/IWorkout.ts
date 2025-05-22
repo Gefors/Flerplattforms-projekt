@@ -13,7 +13,7 @@ export interface Exercise {
   sets: number;
   reps: number;
   rest_seconds: number;
-  notes: string;
+  instructions: string;
   muscles: MuscleActivation[];
 }
 

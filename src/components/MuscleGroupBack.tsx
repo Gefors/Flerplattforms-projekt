@@ -25,7 +25,7 @@ function MuscleGroupBack({ muscleActivations }: MuscleGroupBackProps) {
     }
 
     return (
-        <svg viewBox="0 0 660.46 1206.46" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-80 xl:h-72 2xl:h-96 text-gray-700">
+        <svg viewBox="0 0 660.46 1206.46" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full text-gray-700">
             <defs>
                 <radialGradient id="jointradial" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                     <stop offset="0%" style={{ stopColor: "rgb(254, 91, 127)", stopOpacity: 1 }}></stop>

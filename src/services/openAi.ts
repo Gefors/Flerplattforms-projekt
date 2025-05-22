@@ -36,5 +36,6 @@ export async function getWorkoutPlan(userGoal: string) {
       },
     },
   });
+  console.log(JSON.parse(response.output_text));
   return JSON.parse(response.output_text) as Workout;
 }

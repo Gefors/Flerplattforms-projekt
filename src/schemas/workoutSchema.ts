@@ -17,7 +17,7 @@ const workoutSchema = {
           sets: { type: "integer" },
           reps: { type: "integer" },
           rest_seconds: { type: "integer" },
-          notes: { type: "string" },
+          instructions: { type: "string" },
           muscles: {
             type: "array",
             items: {
@@ -34,7 +34,14 @@ const workoutSchema = {
             },
           },
         },
-        required: ["name", "sets", "reps", "rest_seconds", "notes", "muscles"],
+        required: [
+          "name",
+          "sets",
+          "reps",
+          "rest_seconds",
+          "instructions",
+          "muscles",
+        ],
         additionalProperties: false,
       },
     },

@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
-import toast from "react-hot-toast";
 import type {
   FormData,
-  Goal,
-  Experience,
-  Duration,
   Equipment,
   MuscleGroup,
 } from "../enums/FormDataType";
@@ -12,10 +7,12 @@ import type {
 interface WorkoutFormProps {
   form: FormData,
   setForm: React.Dispatch<React.SetStateAction<FormData>>,
+  submitWorkout: () => void,
+  loading?: boolean,
 }
 
-const WorkoutForm = ({form, setForm}: WorkoutFormProps) => {
-  
+const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps) => {
+
 
   const handeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -61,7 +58,7 @@ const WorkoutForm = ({form, setForm}: WorkoutFormProps) => {
     e.preventDefault();
 
     console.log(form);
-    toast.success("Workout created successfully!");
+    submitWorkout();
   };
 
   const equipmentGroupOptions: Equipment[] = [
@@ -244,8 +241,9 @@ const WorkoutForm = ({form, setForm}: WorkoutFormProps) => {
 
         <div>
           <button
-            className="bg-gradient-to-r from-violet-500 to-blue-500 p-3 hover:cursor-pointer rounded-xl text-white w-full"
+            className="bg-gradient-to-r from-violet-500 to-blue-500 p-3 hover:cursor-pointer rounded-xl text-white w-full disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={submitForm}
+            disabled={loading}
           >
             Generate Workout Plan
           </button>
