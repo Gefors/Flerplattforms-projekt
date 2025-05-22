@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import type {
   FormData,
   Goal,
@@ -61,6 +62,7 @@ const WorkoutForm: React.FC = () => {
     e.preventDefault();
 
     console.log(form);
+    toast.success("Workout created successfully!");
   };
 
   const equipmentGroupOptions: Equipment[] = [
@@ -82,7 +84,7 @@ const WorkoutForm: React.FC = () => {
   ];
 
   return (
-    <div className="rounded-xl overflow-hidden w-full mt-10">
+    <div className="rounded-xl overflow-hidden w-full mt-10 shadow-lg">
       <div className="bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
         <h2 className="text-white text-xl font-bold">Create your workout</h2>
       </div>
@@ -119,7 +121,7 @@ const WorkoutForm: React.FC = () => {
           </select>
         </div>
 
-        {/*Duratioon */}
+        {/*Duration */}
         <div>
           <label className="">Duration</label>
           <select
@@ -135,57 +137,91 @@ const WorkoutForm: React.FC = () => {
           </select>
         </div>
 
-        <div className=" flex flex-col md:flex-row justify-between gap-16 my-10 p-4 border rounded-lg w-84 ">
+        <div className="justify-between gap-16 my-10 p-4  rounded-lg w-84 ">
           {/* Equipment */}
-          <div className="flex flex-col gap-4">
-            <label>Equipment</label>
-            <div>
-              {equipmentGroupOptions.map((equipment) => (
-                <div
-                  key={equipment}
-                  className="flex flex-row items-center gap-2 w-full"
-                >
-                  <input
-                    type="checkbox"
-                    checked={form.equipment.includes(equipment)}
-                    name="equipment"
-                    id=""
-                    value={equipment}
-                    onChange={handleEquipmentChange}
-                  />
-                  <label>{equipment}</label>
-                </div>
-              ))}
+           <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-800 mb-4">Available Equipment</h3>
+            <div className="grid grid-cols-2 gap-x-8">
+              <div className="space-y-2">
+                {equipmentGroupOptions.slice(0, Math.ceil(equipmentGroupOptions.length / 2)).map((equipment) => (
+                  <div key={equipment} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`equipment-${equipment}`}
+                      name="equipment"
+                      value={equipment}
+                      checked={form.equipment.includes(equipment)}
+                      onChange={handleEquipmentChange}
+                      className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                    />
+                    <label className="ml-2 capitalize">{equipment}</label>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="space-y-2">
+                {equipmentGroupOptions.slice(Math.ceil(equipmentGroupOptions.length / 2)).map((equipment) => (
+                  <div key={equipment} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`equipment-${equipment}`}
+                      name="equipment"
+                      value={equipment}
+                      checked={form.equipment.includes(equipment)}
+                      onChange={handleEquipmentChange}
+                      className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                    />
+                    <label className="ml-2 capitalize">{equipment}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           {/*Muscle Groups  */}
-          <div className="flex flex-col gap-4">
-            <label className="text-nowrap">Muscle Groups</label>
-            <div className="h-full">
-              {muscleGroupOptions.map((muscle) => (
-                <div
-                  key={muscle}
-                  className="flex flex-row items-center gap-2 w-full"
-                >
-                  <input
-                    type="checkbox"
-                    checked={form.muscleGroup.includes(muscle)}
-                    name="muscleGroup"
-                    id=""
-                    value={muscle}
-                    onChange={handleMuscleGroupChange}
-                  />
-                  <label>{muscle}</label>
-                </div>
-              ))}
+          <div>
+            <h3 className="text-lg font-medium text-gray-800 mb-4">Focus Areas</h3>
+            <div className="grid grid-cols-2 gap-x-8">
+              <div className="space-y-2">
+                {muscleGroupOptions.slice(0, Math.ceil(muscleGroupOptions.length / 2)).map((muscle) => (
+                  <div key={muscle} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`muscle-${muscle}`}
+                      name="muscleGroup"
+                      value={muscle}
+                      checked={form.muscleGroup.includes(muscle)}
+                      onChange={handleMuscleGroupChange}
+                      className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                    />
+                    <label htmlFor={`muscle-${muscle}`} className="ml-2 capitalize">{muscle}</label>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="space-y-2">
+                {muscleGroupOptions.slice(Math.ceil(muscleGroupOptions.length / 2)).map((muscle) => (
+                  <div key={muscle} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`muscle-${muscle}`}
+                      name="muscleGroup"
+                      value={muscle}
+                      checked={form.muscleGroup.includes(muscle)}
+                      onChange={handleMuscleGroupChange}
+                      className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                    />
+                    <label htmlFor={`muscle-${muscle}`} className="ml-2 capitalize">{muscle}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         <div>
           <button
-            className="p-3 bg-blue-500 hover:cursor-pointer text-white"
+            className="p-3 bg-blue-500 hover:cursor-pointer rounded-xl text-white"
             onClick={submitForm}
           >
             Submit!

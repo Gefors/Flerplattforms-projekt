@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "./components/Button";
-import Alert from "./components/Alert";
 import WorkoutForm from "./components/WorkoutForm";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [showAlert, setShowAlert] = useState(false);
@@ -14,10 +14,8 @@ function App() {
   }, [showAlert]);
 
   return (
-    // <>
     <div className="bg-gray-50">
-    
-    
+    <Toaster position="top-right" />
     <div className="container mx-auto ">
       <div className=" flex flex-col">
         <WorkoutForm />
