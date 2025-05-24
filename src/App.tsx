@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
@@ -24,6 +24,24 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const [savedWorkout, setSavedWorkout] = useState<Workout[]>([]);
+
+  useEffect(() => {
+    const storedWorkouts = localStorage.getItem("savedWorkout");
+    if (storedWorkouts) {
+      setSavedWorkout(JSON.parse(storedWorkouts));
+      console.log(
+        "Loaded saved workouts from localStorage:",
+        JSON.parse(storedWorkouts)
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (savedWorkout.length > 0) {
+      localStorage.setItem("savedWorkout", JSON.stringify(savedWorkout));
+      console.log("Saved workouts updated:", savedWorkout);
+    }
+  }, [savedWorkout]);
 
   const handleDeleteWorkout = (index: number) => {
     setSavedWorkout((prev) => prev.filter((_, i) => i !== index));
