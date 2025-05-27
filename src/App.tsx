@@ -37,8 +37,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (savedWorkout.length > 0) {
     localStorage.setItem("savedWorkout", JSON.stringify(savedWorkout));
     console.log("Saved workouts updated:", savedWorkout);
+    }
   }, [savedWorkout]);
 
   const handleDeleteWorkout = (index: number) => {
