@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 import type { Workout, Exercise } from "../interfaces/IWorkout";
@@ -12,6 +13,8 @@ interface GeneratedWorkoutProps {
   onSave: (workout: Workout) => void;
 }
 function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
+  const [selectedExercises, setSelectedExercises] = useState<number[]>([]);
+
   const displayMuscle = (exercise: Exercise) => {
     const muscleGroup: IMuscleGroup[] = exercise.muscles.map((muscle) => {
       return {
@@ -22,11 +25,35 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
     return muscleGroup;
   };
 
+  const handleToggleExercise = (index: number) => {
+    setSelectedExercises((prevSelected) => {
+      if (prevSelected.includes(index)) {
+        return prevSelected.filter((selectedIndex) => selectedIndex !== index);
+      } else {
+        return [...prevSelected, index];
+      }
+    });
+  };
+
   const saveWorkout = () => {
-    if (workoutPlan) {
-      onSave(workoutPlan);
-      toast.success("Workout saved!");
+    if (!workoutPlan) return;
+
+    if (selectedExercises.length === 0) {
+      toast.error("Please select at least one exercise to save the workout.");
+      return;
     }
+
+    const selectedExercisesList = workoutPlan.exercises.filter((_, i) =>
+      selectedExercises.includes(i)
+    );
+
+    const workoutToSave: Workout = {
+      ...workoutPlan,
+      exercises: selectedExercisesList,
+    };
+
+    onSave(workoutToSave);
+    toast.success("Workout saved!");
   };
 
   return (
@@ -49,6 +76,13 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
                 key={index}
                 className="flex flex-row h-auto w-full p-4 rounded-lg shadow-lg items-start border border-zinc-100"
               >
+                <input
+                  type="checkbox"
+                  checked={selectedExercises.includes(index)}
+                  onChange={() => handleToggleExercise(index)}
+                  className="h-4 w-4 rounded m-4 accent-violet-500/25 "
+                  aria-label={`Select exercise ${exercise.name}`}
+                />
                 <div className="flex flex-col w-1/2 gap-4 p-2">
                   <h5 className="font-semibold">
                     {index + 1} - {exercise.name}
@@ -57,8 +91,9 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
                     <p>{exercise.instructions}</p>
                   </div>
                   <ul className="gap-4">
-                    <li>Reps: {exercise.reps}</li>
-                    <li>Sets: {exercise.sets}</li>
+                    <li>
+                      {exercise.sets} sets x {exercise.reps} reps
+                    </li>
                     <li>Rest: {exercise.rest_seconds} sec</li>
                   </ul>
                 </div>
