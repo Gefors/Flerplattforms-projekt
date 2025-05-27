@@ -26,23 +26,30 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden w-full mt-10 shadow-lg">
-      <div className="bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
+    <div className="w-full rounded-xl overflow-hidden  mt-10 shadow-lg">
+      <div className="flex justify-between bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
         <h2 className="text-white text-xl font-bold">Saved workout</h2>
+        <span className="bg-white text-xs font-bold rounded-full w-7 h-7 flex items-center justify-center">
+          {savedWorkout.length}
+        </span>
       </div>
-      <div className="flex item-center justify-between mb-4">
-        <div>
+      <div className="flex item-center justify-between mb-4 px-8">
+        <div className="w-full ">
           <ul>
             {savedWorkout.map((workout, index) => (
-              <li key={index} className="border-b py-2 cursor-pointer group">
+              <li key={index} className=" py-2 cursor-pointer group">
                 <div
-                  className="flex items-center justify-between p-2"
+                  className="flex items-center justify-between p-2 mx-auto"
                   onClick={() => handleToggleExpand(index)}
                 >
                   <span>
                     <strong>{workout.title}</strong> - {workout.difficulty} -{" "}
                     {workout.duration_minutes} min
                   </span>
+
+                    <span className="text-gray-500 ml-auto">
+                    {workout.exercises.length} exercises
+                    </span>
                   <button
                     className="ml-4 px-2 py-1 bg-gradient-to-r from-violet-500 to-pink-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={(e) => {
@@ -53,6 +60,7 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
                     Delete
                   </button>
                 </div>
+                <hr className=" border-t border-gray-300" />
                 {expandedIndex === index && (
                   <div className="mt-2 ml-4">
                     <h4 className="font-semibold">Exercises:</h4>
@@ -71,7 +79,9 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
                               muscleActivations={displayMuscle(exercise)}
                             />
                           </div>
+                          
                         </li>
+                        
                       ))}
                     </ul>
                   </div>
