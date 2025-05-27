@@ -35,60 +35,84 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
       </div>
       <div className="flex item-center justify-between mb-4 px-8">
         <div className="w-full ">
-          <ul>
-            {savedWorkout.map((workout, index) => (
-              <li key={index} className=" py-2 cursor-pointer group">
-                <div
-                  className="flex items-center justify-between p-2 mx-auto"
-                  onClick={() => handleToggleExpand(index)}
-                >
-                  <span>
-                    <strong>{workout.title}</strong> - {workout.difficulty} -{" "}
-                    {workout.duration_minutes} min
+          {savedWorkout.length === 0 ? (
+            <div
+              id="Infobox"
+              className="bg-white p-4 rounded-lg shadow-md my-4"
+            >
+              <h2 className="font-semibold text-lg mb-2">How it works:</h2>
+              <ol className="list-decimal list-inside space-y-1">
+                <li>
+                  Fill out your fitness preferences and available equipment
+                </li>
+                <li>Get a personalized workout plan generated just for you</li>
+                <li>
+                  Save the entire workout or select specific exercises to save
+                </li>
+                <li>
+                  Access your saved workouts anytime
+                  <br />
+                  <span className="text-gray-500 text-sm">
+                    (Your saved workouts are stored locally in your browser
+                    using <b>localStorage</b>.)
                   </span>
+                </li>
+              </ol>
+            </div>
+          ) : (
+            <ul>
+              {savedWorkout.map((workout, index) => (
+                <li key={index} className=" py-2 cursor-pointer group">
+                  <div
+                    className="flex items-center justify-between p-2 mx-auto"
+                    onClick={() => handleToggleExpand(index)}
+                  >
+                    <span>
+                      <strong>{workout.title}</strong> - {workout.difficulty} -{" "}
+                      {workout.duration_minutes} min
+                    </span>
 
                     <span className="text-gray-500 ml-auto">
-                    {workout.exercises.length} exercises
+                      {workout.exercises.length} exercises
                     </span>
-                  <button
-                    className="ml-4 px-2 py-1 bg-gradient-to-r from-violet-500 to-pink-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(index);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-                <hr className=" border-t border-gray-300" />
-                {expandedIndex === index && (
-                  <div className="mt-2 ml-4">
-                    <h4 className="font-semibold">Exercises:</h4>
-                    <ul className="list-disc ml-4">
-                      {workout.exercises.map((exercise, i) => (
-                        <li key={i}>
-                          <strong>{exercise.name}</strong>:{" "}
-                          {exercise.instructions} <br />
-                          Reps: {exercise.reps}, Sets: {exercise.sets}, Rest:{" "}
-                          {exercise.rest_seconds}s
-                          <div className="flex flex-row p-2 h-full gap-2 w-1/2 rounded-lg mt-2 items-start justify-center bg-zinc-50 overflow-hidden">
-                            <MuscleGroupFront
-                              muscleActivations={displayMuscle(exercise)}
-                            />
-                            <MuscleGroupBack
-                              muscleActivations={displayMuscle(exercise)}
-                            />
-                          </div>
-                          
-                        </li>
-                        
-                      ))}
-                    </ul>
+                    <button
+                      className="ml-4 px-2 py-1 bg-gradient-to-r from-violet-500 to-pink-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(index);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </div>
-                )}
-              </li>
-            ))}
-          </ul>
+                  <hr className=" border-t border-gray-300" />
+                  {expandedIndex === index && (
+                    <div className="mt-2 ml-4">
+                      <h4 className="font-semibold">Exercises:</h4>
+                      <ul className="list-disc ml-4">
+                        {workout.exercises.map((exercise, i) => (
+                          <li key={i}>
+                            <strong>{exercise.name}</strong>:{" "}
+                            {exercise.instructions} <br />
+                            Reps: {exercise.reps}, Sets: {exercise.sets}, Rest:{" "}
+                            {exercise.rest_seconds}s
+                            <div className="flex flex-row p-2 h-full gap-2 w-1/2 rounded-lg mt-2 items-start justify-center bg-zinc-50 overflow-hidden">
+                              <MuscleGroupFront
+                                muscleActivations={displayMuscle(exercise)}
+                              />
+                              <MuscleGroupBack
+                                muscleActivations={displayMuscle(exercise)}
+                              />
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
