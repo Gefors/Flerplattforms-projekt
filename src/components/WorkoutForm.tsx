@@ -154,7 +154,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         value={equipment}
                         checked={form.equipment.includes(equipment)}
                         onChange={handleEquipmentChange}
-                        className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                        className="h-4 w-4 accent-violet-500/25 rounded"
                       />
                       <label className="ml-2 capitalize">{equipment}</label>
                     </div>
@@ -173,7 +173,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         value={equipment}
                         checked={form.equipment.includes(equipment)}
                         onChange={handleEquipmentChange}
-                        className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                        className="h-4 w-4 accent-violet-500/25 rounded"
                       />
                       <label className="ml-2 capitalize">{equipment}</label>
                     </div>
@@ -200,7 +200,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         value={muscle}
                         checked={form.muscleGroup.includes(muscle)}
                         onChange={handleMuscleGroupChange}
-                        className="h-4 w-4 text-indigo-600 border-indigo-500 rounded "
+                        className="h-4 w-4 accent-violet-500/25 rounded "
                       />
                       <label
                         htmlFor={`muscle-${muscle}`}
@@ -224,7 +224,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         value={muscle}
                         checked={form.muscleGroup.includes(muscle)}
                         onChange={handleMuscleGroupChange}
-                        className="h-4 w-4 text-indigo-600 border-indigo-500 rounded focus:ring-indigo-500"
+                        className="h-4 w-4 accent-violet-500/25 rounded"
                       />
                       <label
                         htmlFor={`muscle-${muscle}`}
