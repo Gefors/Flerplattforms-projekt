@@ -48,6 +48,12 @@ function App() {
 
   const handleSavedWorout = (workout: Workout) => {
     setSavedWorkout((prev) => [...prev, workout]);
+     setTimeout(() => {
+        const savedWorkoutElement = document.getElementById("saved-workout");
+        if (savedWorkoutElement) {
+          savedWorkoutElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
   };
 
   const submitWorkout = () => {
@@ -65,6 +71,13 @@ function App() {
       });
       setWorkoutPlan(workout);
       setLoading(false);
+      setTimeout(() => {
+        const generatedWorkoutElement =
+          document.getElementById("generated-workout");
+        if (generatedWorkoutElement) {
+          generatedWorkoutElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
       setForm({
         goal: "strength",
         experience: "beginner",
@@ -108,14 +121,17 @@ function App() {
           />
         </div>
 
-        <div className="w-full max-w-2xl lg:max-w-full mx-auto ">
+        <div id="saved-workout" className="w-full max-w-2xl lg:max-w-full mx-auto ">
           <SavedWorkouts
             savedWorkout={savedWorkout}
             onDelete={handleDeleteWorkout}
           />
         </div>
 
-        <div className="container w-full lg:col-span-2 max-w-2xl lg:max-w-full mx-auto ">
+        <div
+          id="generated-workout"
+          className="container w-full lg:col-span-2 max-w-2xl lg:max-w-full mx-auto "
+        >
           {workoutPlan && (
             <GeneratedWorkout
               workoutPlan={workoutPlan}
