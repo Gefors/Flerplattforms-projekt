@@ -36,12 +36,16 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (savedWorkout.length > 0) {
+ useEffect(() => {
+  if (savedWorkout.length > 0) {
     localStorage.setItem("savedWorkout", JSON.stringify(savedWorkout));
     console.log("Saved workouts updated:", savedWorkout);
-    }
-  }, [savedWorkout]);
+  } 
+  else if (savedWorkout.length === 0) {
+    localStorage.removeItem("savedWorkout");
+    console.log("All workouts deleted, localStorage cleared.");
+  }
+}, [savedWorkout]);
 
   const handleDeleteWorkout = (index: number) => {
     setSavedWorkout((prev) => prev.filter((_, i) => i !== index));
