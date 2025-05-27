@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import type { Workout, Exercise } from "../interfaces/IWorkout";
@@ -14,6 +14,13 @@ interface GeneratedWorkoutProps {
 }
 function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
   const [selectedExercises, setSelectedExercises] = useState<number[]>([]);
+
+
+    useEffect(() => {
+    if (workoutPlan && workoutPlan.exercises) {
+      setSelectedExercises(workoutPlan.exercises.map((_,  index) =>  index));
+    }
+  }, [workoutPlan]);
 
   const displayMuscle = (exercise: Exercise) => {
     const muscleGroup: IMuscleGroup[] = exercise.muscles.map((muscle) => {
