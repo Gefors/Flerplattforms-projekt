@@ -19,6 +19,7 @@ export interface Exercise {
 
 export interface Workout {
   title: string;
+  workoutExplanation: string;
   duration_minutes: number;
   difficulty: Difficulty;
   exercises: Exercise[];

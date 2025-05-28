@@ -3,6 +3,7 @@ const workoutSchema = {
   type: "object",
   properties: {
     title: { type: "string" },
+    workoutExplanation: { type: "string" },
     duration_minutes: { type: "integer" },
     difficulty: {
       type: "string",
@@ -46,7 +47,13 @@ const workoutSchema = {
       },
     },
   },
-  required: ["title", "duration_minutes", "difficulty", "exercises"],
+  required: [
+    "title",
+    "workoutExplanation",
+    "duration_minutes",
+    "difficulty",
+    "exercises",
+  ],
   additionalProperties: false,
 };
 export default workoutSchema;

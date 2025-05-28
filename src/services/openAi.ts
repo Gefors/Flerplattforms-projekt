@@ -15,12 +15,12 @@ const client = new OpenAI({
  */
 export async function getWorkoutPlan(userGoal: string) {
   const response = await client.responses.create({
-    model: "gpt-4.1-nano", // Modellen som det skickas till, denna får vi experimentera med.
+    model: "gpt-4o-mini", // Modellen som det skickas till, denna får vi experimentera med.
     input: [
       {
         role: "system", // Denna som representerar systemet. Här definierar vi systemets roll och ger instruktioner.
         content:
-          "You are a personal trainer. You will help the user create a workout plan. You will only respond with the workout plan in valid JSON format as defined by the provided schema. Do not include any extra explanation or text.",
+          "You are a personal trainer. You will help the user create a workout plan, make sure to include a sufficient amount of exercises to match the requested workout duration. You will only respond with the workout plan in valid JSON format as defined by the provided schema. Do not include any extra explanation or text.",
       },
       {
         role: "user", // Denna som representerar användaren

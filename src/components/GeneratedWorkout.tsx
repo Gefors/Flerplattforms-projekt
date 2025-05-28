@@ -16,9 +16,9 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
   const [selectedExercises, setSelectedExercises] = useState<number[]>([]);
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (workoutPlan && workoutPlan.exercises) {
-      setSelectedExercises(workoutPlan.exercises.map((_,  index) =>  index));
+      setSelectedExercises(workoutPlan.exercises.map((_, index) => index));
     }
   }, [workoutPlan]);
 
@@ -72,6 +72,7 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
       {workoutPlan && (
         <div className="mx-auto bg-white  overflow-hidden w-full p-8">
           <h3 className="font-bold text-lg">{workoutPlan.title}</h3>
+          <p className="mb-2"><i>{workoutPlan.workoutExplanation}</i></p>
           <p>Difficulty: {workoutPlan.difficulty}</p>
           <p>Duration: {workoutPlan.duration_minutes}</p>
 

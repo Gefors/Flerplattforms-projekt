@@ -26,6 +26,24 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
   const handleEquipmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
+    if (value === "all") {
+      // If "all" are already checked, uncheck all other equipment options
+      if (form.equipment.includes("all") && checked) {
+        setForm((prevData) => ({
+          ...prevData,
+          equipment: [],
+        }));
+        return;
+      }
+
+      // If "all" is checked, select all equipment options
+      setForm((prevData) => ({
+        ...prevData,
+        equipment: checked ? ["dumbbell", "barbell", "kettlebell", "bodyweight", "machine", "band", "cable-machine", "all"] : [],
+      }));
+      return;
+    }
+
     setForm((prevData) => {
       const currentList = prevData.equipment;
       const updatedList = checked
@@ -69,6 +87,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
     "machine",
     "band",
     "cable-machine",
+    "all"
   ];
   const muscleGroupOptions: MuscleGroup[] = [
     "chest",
@@ -127,9 +146,9 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
             onChange={handeSelectChange}
             value={form.duration}
           >
-            <option value="short">Short</option>
-            <option value="medium">Medium</option>
-            <option value="long">Long</option>
+            <option value="30-45 min">Short</option>
+            <option value="60-75 min">Medium</option>
+            <option value="90+ min">Long</option>
           </select>
         </div>
 

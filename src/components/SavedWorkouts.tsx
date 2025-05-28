@@ -60,9 +60,9 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
               </ol>
             </div>
           ) : (
-            <ul>
+            <ul className="divide-y divide-gray-300">
               {savedWorkout.map((workout, index) => (
-                <li key={index} className=" py-2 cursor-pointer group">
+                <li key={index} className="py-2  cursor-pointer hover:bg-zinc-100">
                   <div
                     className="flex items-center justify-between p-2 mx-auto"
                     onClick={() => handleToggleExpand(index)}
@@ -72,7 +72,7 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
                       {workout.duration_minutes} min
                     </span>
 
-                    <span className="text-gray-500 ml-auto">
+                    <span className="text-gray-500 ml-auto text-nowrap">
                       {workout.exercises.length} exercises
                     </span>
                     <button
@@ -85,18 +85,21 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
                       Delete
                     </button>
                   </div>
-                  <hr className=" border-t border-gray-300" />
                   {expandedIndex === index && (
-                    <div className="mt-2 ml-4">
-                      <h4 className="font-semibold">Exercises:</h4>
-                      <ul className="list-disc ml-4">
+                    <div className="mt-2 px-2">
+                      <p><i>{workout.workoutExplanation}</i></p>
+                      <h4 className="font-semibold mb-2">Exercises:</h4>
+                      <ul className="list-disc  space-y-2">
                         {workout.exercises.map((exercise, i) => (
-                          <li key={i}>
-                            <strong>{exercise.name}</strong>:{" "}
-                            {exercise.instructions} <br />
-                            Reps: {exercise.reps}, Sets: {exercise.sets}, Rest:{" "}
-                            {exercise.rest_seconds}s
-                            <div className="flex flex-row p-2 h-full gap-2 w-1/2 rounded-lg mt-2 items-start justify-center bg-zinc-50 overflow-hidden">
+                          <li key={i} className="flex flex-row items-center w-full justify-between bg-white px-4 py-2 rounded-lg shadow-lg">
+                            <div className="flex flex-col w-1/2">
+                              <strong>{i + 1} - {exercise.name}</strong>{" "}
+                              {exercise.instructions} <br />
+                              Reps: {exercise.reps}, Sets: {exercise.sets}, Rest:{" "}
+                              {exercise.rest_seconds}s
+                            </div>
+
+                            <div className="flex flex-row p-2 h-40 gap-2 items-center justify-center overflow-hidden ">
                               <MuscleGroupFront
                                 muscleActivations={displayMuscle(exercise)}
                               />
