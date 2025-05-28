@@ -95,7 +95,7 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
                             <div className="flex flex-col w-1/2">
                               <strong>{i + 1} - {exercise.name}</strong>{" "}
                               {exercise.instructions} <br />
-                              Reps: {exercise.reps}, Sets: {exercise.sets}, Rest:{" "}
+                              {exercise.sets} sets x {exercise.reps} reps, Rest:{" "}
                               {exercise.rest_seconds}s
                             </div>
 
