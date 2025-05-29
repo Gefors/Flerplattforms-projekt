@@ -36,16 +36,16 @@ function App() {
     }
   }, []);
 
- useEffect(() => {
-  if (savedWorkout.length > 0) {
-    localStorage.setItem("savedWorkout", JSON.stringify(savedWorkout));
-    console.log("Saved workouts updated:", savedWorkout);
-  } 
-  else if (savedWorkout.length === 0) {
-    localStorage.removeItem("savedWorkout");
-    console.log("All workouts deleted, localStorage cleared.");
-  }
-}, [savedWorkout]);
+  useEffect(() => {
+    if (savedWorkout.length > 0) {
+      localStorage.setItem("savedWorkout", JSON.stringify(savedWorkout));
+      console.log("Saved workouts updated:", savedWorkout);
+    }
+    else if (savedWorkout.length === 0) {
+      localStorage.removeItem("savedWorkout");
+      console.log("All workouts deleted, localStorage cleared.");
+    }
+  }, [savedWorkout]);
 
   const handleDeleteWorkout = (index: number) => {
     setSavedWorkout((prev) => prev.filter((_, i) => i !== index));
@@ -54,12 +54,12 @@ function App() {
 
   const handleSavedWorout = (workout: Workout) => {
     setSavedWorkout((prev) => [...prev, workout]);
-     setTimeout(() => {
-        const savedWorkoutElement = document.getElementById("saved-workout");
-        if (savedWorkoutElement) {
-          savedWorkoutElement.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
+    setTimeout(() => {
+      const savedWorkoutElement = document.getElementById("saved-workout");
+      if (savedWorkoutElement) {
+        savedWorkoutElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const submitWorkout = () => {
@@ -142,6 +142,7 @@ function App() {
             <GeneratedWorkout
               workoutPlan={workoutPlan}
               onSave={handleSavedWorout}
+              setWorkoutPlan={setWorkoutPlan}
             />
           )}
         </div>

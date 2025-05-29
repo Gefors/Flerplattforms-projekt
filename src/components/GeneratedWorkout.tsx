@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
+import { getMoreExercises } from "../services/openAi";
 import type { Workout, Exercise } from "../interfaces/IWorkout";
 import type { IMuscleGroup } from "../interfaces/IMuscleGroup";
 
@@ -11,9 +12,11 @@ import Button from "./Button";
 interface GeneratedWorkoutProps {
   workoutPlan: Workout | undefined;
   onSave: (workout: Workout) => void;
+  setWorkoutPlan?: (workout: Workout | undefined) => void;
 }
-function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
+function GeneratedWorkout({ workoutPlan, onSave, setWorkoutPlan }: GeneratedWorkoutProps) {
   const [selectedExercises, setSelectedExercises] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -61,6 +64,44 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
 
     onSave(workoutToSave);
     toast.success("Workout saved!");
+    setWorkoutPlan?.(undefined);
+    setSelectedExercises([]);
+  };
+
+  const fetchMoreExercises = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const button = event.currentTarget;
+    button.disabled = true; // Disable the button to prevent multiple clicks
+    setLoading(true);
+    const loadingToastId = toast.loading("Generating exercises...");
+
+    const currentExercises = workoutPlan?.exercises.map(
+      (exercise) => exercise.name
+    ) || [];
+
+    const exercises = await getMoreExercises(currentExercises);
+    if (exercises && exercises.length > 0 && workoutPlan) {
+      const updatedWorkoutPlan = {
+        ...workoutPlan,
+        exercises: [...workoutPlan.exercises, ...exercises],
+      };
+      setWorkoutPlan?.(updatedWorkoutPlan);
+      setLoading(false);
+      button.disabled = false;
+
+      toast.success("More exercises added to the workout!", {
+        id: loadingToastId,
+      });
+    } else {
+      toast.error("No more exercises available.", {
+        id: loadingToastId,
+      });
+    }
+  }
+
+  const discardWorkout = () => {
+    setWorkoutPlan?.(undefined);
+    setSelectedExercises([]);
+    toast.success("Workout discarded.");
   };
 
   return (
@@ -116,14 +157,44 @@ function GeneratedWorkout({ workoutPlan, onSave }: GeneratedWorkoutProps) {
                 </div>
               </div>
             ))}
+            <div className="flex flex-row h-auto w-full p-4 rounded-lg shadow-lg items-start border border-zinc-100">
+              <div className="flex flex-col w-1/2 gap-4 p-2 h-full justify-between">
+                <h5 className="font-semibold">
+                  Not happy with the generated exercises?
+                </h5>
+                <p className="text-sm">
+                  You can also generate more exercies by pressing the button.
+                </p>
+              </div>
+
+              <div className="flex flex-col w-1/2 gap-4 p-2 h-full justify-between">
+                <p className="text-sm">
+                  You can modify the workout by selecting or deselecting exercises
+                  above.
+                </p>
+                <button
+                  className={`bg-gradient-to-r from-violet-500 to-blue-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                  onClick={fetchMoreExercises}
+                >
+                  {loading ? "Loading..." : "Generate More Exercises"}
+                </button>
+              </div>
+            </div>
           </div>
 
-          <Button
-            className=" bg-gradient-to-r from-violet-500 to-blue-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={saveWorkout}
-          >
-            Save Workout
-          </Button>
+          <div className="flex flex-row gap-4">
+            <Button
+              className=" bg-gradient-to-r from-violet-500 to-blue-500 p-3 hover:cursor-pointer rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={saveWorkout}
+            >
+              Save Workout
+            </Button>
+
+            <Button onClick={discardWorkout} className="bg-red-500 p-3 rounded-xl text-white hover:cursor-pointer">
+              Discard Workout
+            </Button>
+          </div>
+
         </div>
       )}
     </div>

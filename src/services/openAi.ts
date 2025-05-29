@@ -1,5 +1,6 @@
 import workoutSchema from "../schemas/workoutSchema";
-import type { Workout } from "../interfaces/IWorkout";
+import exerciseSchema from "../schemas/exerciseSchema";
+import type { Exercise, Workout } from "../interfaces/IWorkout";
 
 import OpenAI from "openai";
 
@@ -36,6 +37,33 @@ export async function getWorkoutPlan(userGoal: string) {
       },
     },
   });
-  console.log(JSON.parse(response.output_text));
   return JSON.parse(response.output_text) as Workout;
+}
+
+export async function getMoreExercises(currentExercises: string[]) {
+  const response = await client.responses.create({
+    model: "gpt-4o-mini",
+    input: [
+      {
+        role: "system",
+        content:
+          "You are a personal trainer. You will help the user create a workout plan, make sure to include a sufficient amount of exercises to match the requested workout duration. You will only respond with the workout plan in valid JSON format as defined by the provided schema. Do not include any extra explanation or text.",
+      },
+      {
+        role: "user",
+        content: `The user has already selected these exercises: ${currentExercises.join(
+          ", "
+        )}. Now the user wants more exercises within the same theme.`,
+      },
+    ],
+    text: {
+      format: {
+        type: "json_schema",
+        name: "exercise_schema",
+        strict: true,
+        schema: exerciseSchema,
+      },
+    },
+  });
+  return JSON.parse(response.output_text).exercises as Exercise[];
 }
