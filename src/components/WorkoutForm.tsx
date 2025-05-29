@@ -4,20 +4,26 @@ import type {
   MuscleGroup,
 } from "../enums/FormDataType";
 
+import { useState } from "react";
+
 interface WorkoutFormProps {
-  form: FormData,
-  setForm: React.Dispatch<React.SetStateAction<FormData>>,
-  submitWorkout: () => void,
+  submitWorkout: (formData: FormData) => Promise<void>,
   loading?: boolean,
 }
 
-const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps) => {
-
+const WorkoutForm = ({ submitWorkout, loading }: WorkoutFormProps) => {
+  const [formx, setFormx] = useState<FormData>({
+    goal: "strength",
+    experience: "beginner",
+    duration: "short",
+    equipment: [],
+    muscleGroup: [],
+  });
 
   const handeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    setForm((prevData) => ({
+    setFormx((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -28,8 +34,8 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
 
     if (value === "all") {
       // If "all" are already checked, uncheck all other equipment options
-      if (form.equipment.includes("all") && checked) {
-        setForm((prevData) => ({
+      if (formx.equipment.includes("all") && checked) {
+        setFormx((prevData) => ({
           ...prevData,
           equipment: [],
         }));
@@ -37,14 +43,14 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
       }
 
       // If "all" is checked, select all equipment options
-      setForm((prevData) => ({
+      setFormx((prevData) => ({
         ...prevData,
         equipment: checked ? ["dumbbell", "barbell", "kettlebell", "bodyweight", "machine", "band", "cable-machine", "all"] : [],
       }));
       return;
     }
 
-    setForm((prevData) => {
+    setFormx((prevData) => {
       const currentList = prevData.equipment;
       const updatedList = checked
         ? [...currentList, value as Equipment]
@@ -59,7 +65,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
   const handleMuscleGroupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
-    setForm((prevData) => {
+    setFormx((prevData) => {
       const currentList = prevData.muscleGroup;
       const updatedList = checked
         ? [...currentList, value as MuscleGroup]
@@ -75,8 +81,15 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
   const submitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    console.log(form);
-    submitWorkout();
+    console.log(formx);
+    submitWorkout(formx);
+    setFormx({
+      goal: "strength",
+      experience: "beginner",
+      duration: "short",
+      equipment: [],
+      muscleGroup: [],
+    });
   };
 
   const equipmentGroupOptions: Equipment[] = [
@@ -99,7 +112,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
   ];
 
   return (
-    <div className="rounded-xl overflow-hidden w-full mt-10 shadow-lg">
+    <div className="rounded-xl overflow-hidden mt-10 shadow-lg w-full max-w-2xl lg:max-w-full mx-auto">
       <div className="bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
         <h2 className="text-white text-xl font-bold">Create your workout</h2>
       </div>
@@ -112,7 +125,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
             id=""
             className="w-full border rounded px-3 py-2 "
             onChange={handeSelectChange}
-            value={form.goal}
+            value={formx.goal}
           >
             <option value="strength">Strength</option>
             <option value="weight-loss">Weight Loss</option>
@@ -128,7 +141,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
             id=""
             className="w-full border rounded px-3 py-2"
             onChange={handeSelectChange}
-            value={form.experience}
+            value={formx.experience}
           >
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
@@ -144,7 +157,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
             id=""
             className="w-full border rounded px-3 py-2"
             onChange={handeSelectChange}
-            value={form.duration}
+            value={formx.duration}
           >
             <option value="30-45 min">Short</option>
             <option value="60-75 min">Medium</option>
@@ -171,7 +184,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         id={`equipment-${equipment}`}
                         name="equipment"
                         value={equipment}
-                        checked={form.equipment.includes(equipment)}
+                        checked={formx.equipment.includes(equipment)}
                         onChange={handleEquipmentChange}
                         className="h-4 w-4 accent-violet-500/25 rounded"
                       />
@@ -190,7 +203,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         id={`equipment-${equipment}`}
                         name="equipment"
                         value={equipment}
-                        checked={form.equipment.includes(equipment)}
+                        checked={formx.equipment.includes(equipment)}
                         onChange={handleEquipmentChange}
                         className="h-4 w-4 accent-violet-500/25 rounded"
                       />
@@ -217,7 +230,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         id={`muscle-${muscle}`}
                         name="muscleGroup"
                         value={muscle}
-                        checked={form.muscleGroup.includes(muscle)}
+                        checked={formx.muscleGroup.includes(muscle)}
                         onChange={handleMuscleGroupChange}
                         className="h-4 w-4 accent-violet-500/25 rounded "
                       />
@@ -241,7 +254,7 @@ const WorkoutForm = ({ form, setForm, submitWorkout, loading }: WorkoutFormProps
                         id={`muscle-${muscle}`}
                         name="muscleGroup"
                         value={muscle}
-                        checked={form.muscleGroup.includes(muscle)}
+                        checked={formx.muscleGroup.includes(muscle)}
                         onChange={handleMuscleGroupChange}
                         className="h-4 w-4 accent-violet-500/25 rounded"
                       />

@@ -105,7 +105,7 @@ function GeneratedWorkout({ workoutPlan, onSave, setWorkoutPlan }: GeneratedWork
   };
 
   return (
-    <div className="rounded-xl overflow-hidden w-full mt-10 shadow-lg mb-10">
+    <div id="generated-workout" className="container w-full lg:col-span-2 max-w-2xl lg:max-w-full mx-auto rounded-xl overflow-hidden mt-10 shadow-lg mb-10">
       <div className="bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
         <h2 className="text-white text-xl font-bold">Generated Workout</h2>
       </div>

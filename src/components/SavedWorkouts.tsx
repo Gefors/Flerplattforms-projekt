@@ -26,7 +26,7 @@ const SavedWorkouts: React.FC<SavedWorkoutProps> = ({
   };
 
   return (
-    <div className="w-full rounded-xl overflow-hidden  mt-10 shadow-lg">
+    <div id="saved-workout" className="w-full max-w-2xl lg:max-w-full mx-auto rounded-xl overflow-hidden  mt-10 shadow-lg">
       <div className="flex justify-between bg-gradient-to-r from-violet-500 to-blue-500 px-8 py-6">
         <h2 className="text-white text-xl font-bold">Saved workout</h2>
         <span className="bg-white text-xs font-bold rounded-full w-7 h-7 flex items-center justify-center">
