@@ -4,7 +4,7 @@ interface WorkoutApplicationProps {
 
 function WorkoutApplicaton({ children }: WorkoutApplicationProps) {
     return (
-        <div className="bg-gray-50">
+        <div className="bg-gray-50 pb-10">
             {children}
         </div>
     );
